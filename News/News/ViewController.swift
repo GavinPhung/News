@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    let refreshControl = UIRefreshControl()
     let viewModel = ViewModel()
     
     override func viewDidLoad() {
@@ -19,8 +20,13 @@ class ViewController: UIViewController {
         
         setupNavigationBar()
         setUpCollectionView()
-        
+        setUpRefreshControl()
         viewModel.onViewDidLoad()
+    }
+    
+    func setUpRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        collectionView.refreshControl = refreshControl
     }
     
     func setUpCollectionView() {
@@ -39,11 +45,22 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.isOpaque = true
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleClick))
+
+        navigationController?.navigationItem.setRightBarButton(searchButton, animated: true)
         title = viewModel.title
     }
     
-    func onRefresh() {
+    @objc func handleClick() {
         
+    }
+    
+    
+    @objc func refresh() {
+        refreshControl.beginRefreshing()
+        viewModel.onRefresh()
+        refreshControl.endRefreshing()
     }
     
     func onScrollEnd() {
@@ -77,6 +94,13 @@ extension ViewController: ViewModelDelegate {
     
     func handle(error: Error) {
     }
+    
+    func goTo(article: Article) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "ArticleViewController") as? ArticleViewController else { return }
+        vc.setViewModel(viewModel: ArticleViewModel(article: article))
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -104,6 +128,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             viewModel.onSelected(indexPath: indexPath)
             collectionView.reloadData()
             collectionView.reloadSections([2])
+        }
+        else {
+            viewModel.onSelected(indexPath: indexPath)
         }
     }
     

@@ -28,11 +28,10 @@ class HeadlineArticleCell: Cell {
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         titleLabel.textColor = .label
-        
+        sourceLabel.text = viewModel.article.publishedAt
+        sourceLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         authorLabel.text = viewModel.author
         authorLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         authorLabel.textColor = .label
     }
-    
-
 }

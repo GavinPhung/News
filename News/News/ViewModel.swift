@@ -10,6 +10,7 @@ import Foundation
 protocol ViewModelDelegate {
     func update()
     func handle(error: Error)
+    func goTo(article: Article)
 }
 
 class Section {
@@ -49,10 +50,28 @@ class ViewModel {
     }
     
     func onSelected(indexPath: IndexPath) {
-        if let viewModel = sections[1].items[indexPath.row] as? SegmentedControlCellViewModel {
-            updateSelected(index: indexPath.row)
-            searchFor(category: viewModel.title.lowercased())
+        switch indexPath.section {
+        case 0:
+            if let viewModel = sections[0].items[indexPath.row] as? HeadlineArticleCellViewModel {
+                self.delegate?.goTo(article: viewModel.article)
+            }
+        case 1:
+            if let viewModel = sections[1].items[indexPath.row] as? SegmentedControlCellViewModel {
+                updateSelected(index: indexPath.row)
+                searchFor(category: viewModel.title.lowercased())
+            }
+        case 2:
+            if let viewModel = sections[2].items[indexPath.row] as? NewsArticleCellViewModel {
+                self.delegate?.goTo(article: viewModel.article)
+            }
+        default:
+            return
         }
+    }
+    
+    func onRefresh() {
+        cache = NSCache<NSString, Section>()
+        onViewDidLoad()
     }
     
     private func createSections() {

@@ -10,7 +10,7 @@ import UIKit
 class NewsArticleCellViewModel: CellViewModel {
     
     let title: String
-    private let article: Article
+    let article: Article
     var cellIdentifier: String = "NewsArticleCell"
     
     var image: UIImage? {

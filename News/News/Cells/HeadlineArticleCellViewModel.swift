@@ -10,7 +10,7 @@ import UIKit
 class HeadlineArticleCellViewModel: CellViewModel {
     
     let title: String
-    private let article: Article
+    let article: Article
     var cellIdentifier: String = "HeadlineArticleCell"
     
     var image: UIImage? {
@@ -20,6 +20,7 @@ class HeadlineArticleCellViewModel: CellViewModel {
         return nil
     }
     
+   // var date: String
     var author: String
     
     private let imageNetwork: ImageNetworking
