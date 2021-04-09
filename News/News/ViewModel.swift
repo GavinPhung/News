@@ -26,7 +26,7 @@ class ViewModel {
     
     var delegate: ViewModelDelegate?
     private var articles = [Article]()
-    var sections = [Section]()
+    var sections = [Section](repeating: Section(items: []), count: 3)
     
     private var selectedCategory: Int = 0
     private var cache = NSCache<NSString, Section>()
@@ -51,27 +51,24 @@ class ViewModel {
     func onSelected(indexPath: IndexPath) {
         if let viewModel = sections[1].items[indexPath.row] as? SegmentedControlCellViewModel {
             updateSelected(index: indexPath.row)
-            searchFor(text: viewModel.title.lowercased())
+            searchFor(category: viewModel.title.lowercased())
         }
     }
     
     private func createSections() {
-        sections = [Section(items: [HeadlineArticleCellViewModel(article: articles[0]),
-                                    HeadlineArticleCellViewModel(article: articles[1]),
-                                    HeadlineArticleCellViewModel(article: articles[2])])]
-        sections.append(Section(items: Category.allCases.map { SegmentedControlCellViewModel(title: $0.rawValue) }))
+        sections[0] = Section(items: [HeadlineArticleCellViewModel(article: articles[0]),
+                                      HeadlineArticleCellViewModel(article: articles[1]),
+                                      HeadlineArticleCellViewModel(article: articles[2])])
+        sections[1] = Section(items: Category.allCases.map { SegmentedControlCellViewModel(title: $0.rawValue) })
         updateSelected(index: 0)
         articles.removeSubrange(0...2)
         cacheSections(category: "general")
-        sections.append(Section(items: articles.map { NewsArticleCellViewModel(article: $0) }))
     }
     
     private func cacheSections(category: String) {
         let category = category as NSString
-        cache.setObject(Section(items: articles.map { NewsArticleCellViewModel(article: $0) }), forKey: category)
-    }
-    
-    private func replaceNewsArticles() {
+        let section = Section(items: articles.map { NewsArticleCellViewModel(article: $0) })
+        cache.setObject(section, forKey: category)
         sections[2] = Section(items: articles.map { NewsArticleCellViewModel(article: $0) })
     }
     
@@ -82,14 +79,14 @@ class ViewModel {
         x[selectedCategory].isSelected = true
     }
     
-    private func searchFor(text: String) {
-        if let section = cache.object(forKey: text as NSString) {
+    private func searchFor(category: String) {
+        if let section = cache.object(forKey: category as NSString) {
             sections[2] = section
             self.delegate?.update()
             return
         }
         
-        let urlString = "\(Endpoint.topHeadlines(text).url)&apiKey=\(ApiKey.key.rawValue)"
+        let urlString = "\(Endpoint.topHeadlines(category).url)&apiKey=\(ApiKey.key.rawValue)"
         
         network.fetch(urlString: urlString) { (result) in
             switch result {
@@ -97,8 +94,7 @@ class ViewModel {
                 self.delegate?.handle(error: error)
             case .success(let articles):
                 self.articles = articles
-                self.replaceNewsArticles()
-                self.cacheSections(category: text)
+                self.cacheSections(category: category)
                 self.delegate?.update()
             }
         }
