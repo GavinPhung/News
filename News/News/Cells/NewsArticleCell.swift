@@ -11,13 +11,14 @@ protocol CellProtocol: UICollectionViewCell  {
     func configureWith(viewModel: CellViewModel)
 }
 
-typealias Cell = CellProtocol & UICollectionViewCell
+typealias CollectionViewCell = CellProtocol & UICollectionViewCell
+typealias TableViewCell = CellProtocol & UITableViewCell
 
 protocol CellViewModel {
     var cellIdentifier: String { get }
 }
 
-class NewsArticleCell: Cell {
+class NewsArticleCell: CollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!

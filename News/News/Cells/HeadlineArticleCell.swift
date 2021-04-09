@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HeadlineArticleCell: Cell {
+class HeadlineArticleCell: CollectionViewCell {
 
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var titleLabel: UILabel!

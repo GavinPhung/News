@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SegmentedControlCell: Cell {
+class SegmentedControlCell: CollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     
     func configureWith(viewModel: CellViewModel) {
