@@ -18,11 +18,6 @@ class SegmentedControlCell: CollectionViewCell {
         titleLabel.text = viewModel.title
         titleLabel.textColor = viewModel.isSelected ? .red : .black
         titleLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
-        titleLabel.backgroundColor = UIColor(red: 248/255.0, green: 249/255.0, blue: 253/255.0, alpha: 1)
-        titleLabel.tintColor = .white
-        titleLabel.layer.cornerRadius = 5
+        titleLabel.backgroundColor = Colors.background.color
     }
-    
-
-
 }

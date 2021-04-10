@@ -7,28 +7,34 @@
 
 import UIKit
 
+protocol ImageDelegate: class {
+    func update(image: UIImage)
+}
+
 class HeadlineArticleCellViewModel: CellViewModel {
+    
+    var cellIdentifier: String = "HeadlineArticleCell"
     
     let title: String
     let article: Article
-    var cellIdentifier: String = "HeadlineArticleCell"
+    let date: String
+    let author: String
     
-    var image: UIImage? {
-        if let url = article.urlToImage as NSString? {
-            return imageNetwork.fetch(urlString: url)
-        }
-        return nil
-    }
-    
-   // var date: String
-    var author: String
-    
+    weak var delegate: ImageDelegate?
+ 
     private let imageNetwork: ImageNetworking
     
     init(article: Article, imageNetwork: ImageNetworking = ImageNetwork.shared) {
         self.article = article
-        title = article.title ?? ""
+        title = article.title ?? "No title"
         author = article.author ?? "No author"
+        date = article.publishedAt ?? "No date"
         self.imageNetwork = imageNetwork
+    }
+    
+    func updateImage() {
+        imageNetwork.fetch(urlString: article.urlToImage) { [weak self] (image) in
+            self?.delegate?.update(image: image)
+        }
     }
 }

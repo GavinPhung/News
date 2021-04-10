@@ -5,7 +5,7 @@
 //  Created by Gavin Phung on 04/04/2021.
 //
 
-import UIKit
+import Foundation
 
 struct Article: Codable {
     var author: String?

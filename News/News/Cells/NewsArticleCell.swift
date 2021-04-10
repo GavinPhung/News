@@ -25,11 +25,22 @@ class NewsArticleCell: CollectionViewCell {
     
     func configureWith(viewModel: CellViewModel) {
         guard let viewModel = viewModel as? NewsArticleCellViewModel else { return }
+        
+        viewModel.delegate = self
+        
         titleLabel.text = viewModel.title
-        self.imageView.image = viewModel.image
+        viewModel.updateImage()
+        
         imageView.layer.cornerRadius = 5
         titleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
-        self.backgroundColor = UIColor(red: 248/255.0, green: 249/255.0, blue: 253/255.0, alpha: 1)
+        self.backgroundColor = Colors.background.color
     }
+}
 
+extension NewsArticleCell: ImageDelegate {
+    func update(image: UIImage) {
+        DispatchQueue.main.async {
+            self.imageView.image = image
+        }
+    }
 }

@@ -45,26 +45,14 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.isOpaque = true
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleClick))
 
-        navigationController?.navigationItem.setRightBarButton(searchButton, animated: true)
         title = viewModel.title
     }
-    
-    @objc func handleClick() {
-        
-    }
-    
     
     @objc func refresh() {
         refreshControl.beginRefreshing()
         viewModel.onRefresh()
         refreshControl.endRefreshing()
-    }
-    
-    func onScrollEnd() {
-        
     }
     
     func createCompositionalLayout() -> UICollectionViewLayout {
@@ -93,6 +81,24 @@ extension ViewController: ViewModelDelegate {
     }
     
     func handle(error: Error) {
+        let error = error as? CustomError
+        let alert = UIAlertController(title: viewModel.alertTitle, message: error?.message, preferredStyle: UIAlertController.Style.alert)
+
+                // add an action (button)
+        alert.addAction(UIAlertAction(title: viewModel.buttonTitle, style: UIAlertAction.Style.default, handler: { [weak self] (action) in
+            self?.viewModel.onViewDidLoad()
+        }))
+
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func categoryClicked() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            self.collectionView.reloadSections([2])
+        }
     }
     
     func goTo(article: Article) {
@@ -116,22 +122,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if indexPath.row == viewModel.articles.count - 1 {
-//            viewModel.currentPage += 1
-//            viewModel.loadMore()
-//        }
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            viewModel.onSelected(indexPath: indexPath)
-            collectionView.reloadData()
-            collectionView.reloadSections([2])
-        }
-        else {
-            viewModel.onSelected(indexPath: indexPath)
-        }
+        viewModel.onSelected(indexPath: indexPath)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

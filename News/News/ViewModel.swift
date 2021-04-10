@@ -7,10 +7,11 @@
 
 import Foundation
 
-protocol ViewModelDelegate {
+protocol ViewModelDelegate: class {
     func update()
     func handle(error: Error)
     func goTo(article: Article)
+    func categoryClicked()
 }
 
 class Section {
@@ -24,8 +25,10 @@ class Section {
 class ViewModel {
     private var network: Networking
     let title = "News"
+    let alertTitle = "Something went wrong"
+    let buttonTitle = "Retry"
     
-    var delegate: ViewModelDelegate?
+    weak var delegate: ViewModelDelegate?
     private var articles = [Article]()
     var sections = [Section](repeating: Section(items: []), count: 3)
     
@@ -37,14 +40,14 @@ class ViewModel {
     }
     
     func onViewDidLoad() {
-        network.fetch(urlString: "\(Endpoint.topHeadlines("general").url)&apiKey=\(ApiKey.key.rawValue)", completion: { (result) in
+        network.fetch(urlString: "\(Endpoint.topHeadlines("general").url)&apiKey=\(ApiKey.key)", completion: { [weak self] (result) in
             switch result {
             case .failure(let error):
-                self.delegate?.handle(error: error)
+                self?.delegate?.handle(error: error)
             case .success(let articles):
-                self.articles = articles
-                self.createSections()
-                self.delegate?.update()
+                self?.articles = articles
+                self?.createSections()
+                self?.delegate?.update()
             }
         })
     }
@@ -53,7 +56,7 @@ class ViewModel {
         switch indexPath.section {
         case 0:
             if let viewModel = sections[0].items[indexPath.row] as? HeadlineArticleCellViewModel {
-                self.delegate?.goTo(article: viewModel.article)
+                delegate?.goTo(article: viewModel.article)
             }
         case 1:
             if let viewModel = sections[1].items[indexPath.row] as? SegmentedControlCellViewModel {
@@ -62,7 +65,7 @@ class ViewModel {
             }
         case 2:
             if let viewModel = sections[2].items[indexPath.row] as? NewsArticleCellViewModel {
-                self.delegate?.goTo(article: viewModel.article)
+                delegate?.goTo(article: viewModel.article)
             }
         default:
             return
@@ -105,31 +108,17 @@ class ViewModel {
             return
         }
         
-        let urlString = "\(Endpoint.topHeadlines(category).url)&apiKey=\(ApiKey.key.rawValue)"
+        let urlString = "\(Endpoint.topHeadlines(category).url)&apiKey=\(ApiKey.key)"
         
-        network.fetch(urlString: urlString) { (result) in
+        network.fetch(urlString: urlString) { [weak self] (result) in
             switch result {
             case .failure(let error):
-                self.delegate?.handle(error: error)
+                self?.delegate?.handle(error: error)
             case .success(let articles):
-                self.articles = articles
-                self.cacheSections(category: category)
-                self.delegate?.update()
+                self?.articles = articles
+                self?.cacheSections(category: category)
+                self?.delegate?.categoryClicked()
             }
         }
     }
-    
-//    func loadMore() {
-//        network.fetch(category: .general, pageNumber: currentPage, completion: { (result) in
-//            switch result {
-//            case .failure(let error):
-//                //self.delegate?.handle(error: error)
-//            print(error)
-//            case .success(let articles):
-//                self.articles.append(contentsOf: articles)
-//                self.createSections()
-//                self.delegate?.update()
-//            }
-//        })
-//    }
 }

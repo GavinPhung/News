@@ -28,7 +28,6 @@ enum Layouts  {
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
 
-
         let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
         let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
@@ -69,18 +68,5 @@ enum Layouts  {
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
 
         return layoutSection
-        
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.333))
-//
-//        let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
-//        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
-//
-//        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5))
-//        let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
-//
-//        let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
-//        layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
-//
-//        return layoutSection
     }
 }

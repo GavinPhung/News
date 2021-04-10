@@ -9,7 +9,6 @@ import UIKit
 
 class HeadlineArticleCell: CollectionViewCell {
 
-    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var authorLabel: UILabel!
@@ -18,20 +17,27 @@ class HeadlineArticleCell: CollectionViewCell {
     func configureWith(viewModel: CellViewModel) {
         guard let viewModel = viewModel as? HeadlineArticleCellViewModel else { return }
         
-        titleLabel.text = viewModel.title
-        imageView.image = viewModel.image
-        stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 5
-        imageView.layer.cornerRadius = 5
-        imageView.clipsToBounds = true
+        viewModel.delegate = self
         
+        titleLabel.text = viewModel.title
+        imageView.layer.cornerRadius = 5
+        
+        viewModel.updateImage()
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         titleLabel.textColor = .label
-        sourceLabel.text = viewModel.article.publishedAt
+        sourceLabel.text = viewModel.date
         sourceLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         authorLabel.text = viewModel.author
         authorLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         authorLabel.textColor = .label
+    }
+}
+
+extension HeadlineArticleCell: ImageDelegate {
+    func update(image: UIImage) {
+        DispatchQueue.main.async {
+            self.imageView.image = image
+        }
     }
 }

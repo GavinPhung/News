@@ -13,12 +13,7 @@ class NewsArticleCellViewModel: CellViewModel {
     let article: Article
     var cellIdentifier: String = "NewsArticleCell"
     
-    var image: UIImage? {
-        if let url = article.urlToImage as NSString? {
-            return imageNetwork.fetch(urlString: url)
-        }
-        return nil
-    }
+    weak var delegate: ImageDelegate?
     
     private let imageNetwork: ImageNetworking
     
@@ -26,5 +21,11 @@ class NewsArticleCellViewModel: CellViewModel {
         self.article = article
         title = article.title ?? ""
         self.imageNetwork = imageNetwork
+    }
+    
+    func updateImage() {
+        imageNetwork.fetch(urlString: article.urlToImage) { [weak self] (image) in
+            self?.delegate?.update(image: image)
+        }
     }
 }
