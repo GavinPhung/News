@@ -20,15 +20,24 @@ class ArticleViewController: UIViewController {
     
     func setViewModel(viewModel: ArticleViewModel) {
         self.viewModel = viewModel
+        self.viewModel.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = viewModel.image
+        viewModel.updateImage()
         titleLabel.text = viewModel.title
         dateLabel.text = viewModel.date
         authorLabel.text = viewModel.author
         descriptionLabel.text = viewModel.description
         contentLabel.text = viewModel.content
+    }
+}
+
+extension ArticleViewController: ImageDelegate {
+    func update(image: UIImage) {
+        DispatchQueue.main.async {
+            self.imageView.image = image
+        }
     }
 }

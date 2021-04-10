@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ImageNetworking {
-    func fetch(urlString: NSString) -> UIImage?
+    func fetch(urlString: String?, completion: @escaping (UIImage) -> Void) -> Void
 }
 
 class ImageNetwork: ImageNetworking {
@@ -34,7 +34,10 @@ class ImageNetwork: ImageNetworking {
                     completion(image)
                     return
                 }
+            }
+            task.resume()
         }
-        return cache.object(forKey: urlString)
+        
+        completion(UIImage(named: "placeholderNewsImage") ?? UIImage())
     }
 }
