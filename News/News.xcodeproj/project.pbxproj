@@ -169,8 +169,8 @@
 				86155C8A261F9F9400DEE06C /* Utilities */,
 				8658B7FF2619FA8B00D50E5B /* Info.plist */,
 				8658B8242619FAC000D50E5B /* Networking.swift */,
-				869E2B012622491200C8CA24 /* Assets */,
 				86D67098261DEE7B00081E61 /* ImageNetwork.swift */,
+				869E2B012622491200C8CA24 /* Assets */,
 				86D670A5261E3F6E00081E61 /* Cells */,
 			);
 			path = News;

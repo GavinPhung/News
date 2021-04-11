@@ -15,6 +15,7 @@ class ArticleViewController: UIViewController {
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var button: UIButton!
     
     var viewModel: ArticleViewModel!
     
@@ -31,6 +32,22 @@ class ArticleViewController: UIViewController {
         authorLabel.text = viewModel.author
         descriptionLabel.text = viewModel.description
         contentLabel.text = viewModel.content
+        title = "Article"
+        
+        view.backgroundColor = Colors.background.color
+        
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        dateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        authorLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        descriptionLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        contentLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        descriptionLabel.textColor = .gray
+        
+        imageView.layer.cornerRadius = 5
+        button.setTitle(viewModel.buttonTitle, for: .normal)
+    }
+    @IBAction func buttonPressed(_ sender: Any) {
+        viewModel.onButtonPressed()
     }
 }
 

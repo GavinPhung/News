@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,6 +17,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="439" height="340"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRX-Zj-8kP">
+                        <rect key="frame" x="30" y="15" width="379" height="287"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NFY-2y-jLS">
                         <rect key="frame" x="30" y="15" width="379" height="204"/>
                     </imageView>
@@ -75,13 +80,17 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstItem="EAL-cP-fhs" firstAttribute="top" secondItem="aRX-Zj-8kP" secondAttribute="bottom" id="3MB-7o-ZfI"/>
                 <constraint firstItem="NFY-2y-jLS" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="0.6" id="3MQ-w9-mtF"/>
                 <constraint firstAttribute="trailing" secondItem="NFY-2y-jLS" secondAttribute="trailing" constant="30" id="DZ0-2N-rhb"/>
                 <constraint firstItem="flF-ak-Qq4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="30" id="Gu5-Wx-RuY"/>
                 <constraint firstAttribute="trailing" secondItem="EAL-cP-fhs" secondAttribute="trailing" constant="30" id="Hs7-ED-FBc"/>
                 <constraint firstItem="flF-ak-Qq4" firstAttribute="top" secondItem="NFY-2y-jLS" secondAttribute="bottom" constant="5" id="Jgm-m8-CL0"/>
+                <constraint firstItem="aRX-Zj-8kP" firstAttribute="top" secondItem="NFY-2y-jLS" secondAttribute="top" id="Jjj-0c-mI8"/>
                 <constraint firstItem="EAL-cP-fhs" firstAttribute="top" secondItem="flF-ak-Qq4" secondAttribute="bottom" constant="10" id="K42-nK-FRZ"/>
+                <constraint firstAttribute="trailing" secondItem="aRX-Zj-8kP" secondAttribute="trailing" constant="30" id="Nom-Ez-HSW"/>
                 <constraint firstAttribute="trailing" secondItem="flF-ak-Qq4" secondAttribute="trailing" constant="30" id="aGR-b7-xz2"/>
+                <constraint firstItem="aRX-Zj-8kP" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="30" id="cIe-Fi-klr"/>
                 <constraint firstItem="EAL-cP-fhs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="30" id="chu-TA-5d3"/>
                 <constraint firstItem="NFY-2y-jLS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="30" id="daB-Wf-GlR"/>
                 <constraint firstItem="NFY-2y-jLS" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="fNp-AU-1jy"/>
@@ -92,10 +101,17 @@
             <connections>
                 <outlet property="authorLabel" destination="u69-yL-aU6" id="cGw-i2-S9y"/>
                 <outlet property="imageView" destination="NFY-2y-jLS" id="Ixs-da-RHW"/>
+                <outlet property="infoStackView" destination="EAL-cP-fhs" id="jLW-aP-qVi"/>
                 <outlet property="sourceLabel" destination="4dJ-gJ-Jju" id="aDf-at-VO9"/>
                 <outlet property="titleLabel" destination="2TJ-hf-0Ph" id="Gor-uK-Xuh"/>
+                <outlet property="titleStackView" destination="flF-ak-Qq4" id="SaH-m3-UyB"/>
             </connections>
             <point key="canvasLocation" x="-136.95652173913044" y="27.455357142857142"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

@@ -13,6 +13,8 @@ class HeadlineArticleCell: CollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var sourceLabel: UILabel!
+    @IBOutlet weak var infoStackView: UIStackView!
+    @IBOutlet weak var titleStackView: UIStackView!
     
     func configureWith(viewModel: CellViewModel) {
         guard let viewModel = viewModel as? HeadlineArticleCellViewModel else { return }
@@ -31,6 +33,9 @@ class HeadlineArticleCell: CollectionViewCell {
         authorLabel.text = viewModel.author
         authorLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         authorLabel.textColor = .label
+        titleStackView.backgroundColor = .white
+        infoStackView.backgroundColor = .white
+        infoStackView.layer.cornerRadius = 5
     }
 }
 

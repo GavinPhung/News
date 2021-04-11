@@ -9,11 +9,13 @@ import UIKit
 
 class ArticleViewModel {
 
-    let title: String?
-    let date: String?
-    let author: String?
+    let title: String
+    let date: String
+    let author: String
     let description: String?
     let content: String?
+    
+    let buttonTitle = "Read full article"
     
     weak var delegate: ImageDelegate?
     
@@ -24,16 +26,20 @@ class ArticleViewModel {
     init(article: Article, imageNetwork: ImageNetworking = ImageNetwork.shared) {
         self.article = article
         self.imageNetwork = imageNetwork
-        self.title = article.title
-        self.date = article.publishedAt
-        self.author = article.author
-        self.description = article.description
-        self.content = article.content
+        title = article.title ?? "No title"
+        date = article.publishedAt ?? "No date"
+        author = article.author ?? "No author"
+        description = article.description
+        content = article.content
     }
     
     func updateImage() {
         imageNetwork.fetch(urlString: article.urlToImage) { (image) in
             self.delegate?.update(image: image)
         }
+    }
+    
+    func onButtonPressed() {
+        
     }
 }
