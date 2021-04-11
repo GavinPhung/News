@@ -15,6 +15,7 @@ class ErrorTests: XCTestCase {
         XCTAssertEqual(CustomError.badStatusCode(400).message, "Error code 400")
         XCTAssertEqual(CustomError.badStatusCode(500).message, "Error code 500")
         XCTAssertEqual(CustomError.decodeError.message, "Decode error")
+        XCTAssertEqual(CustomError.error.message, "Error returned")
         XCTAssertEqual(CustomError.noResults.message, "No results found")
     }
 

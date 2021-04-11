@@ -28,7 +28,7 @@ class ImageNetwork: ImageNetworking {
         }
         
         if let cachedImage = cache.object(forKey: urlString as NSString) {
-             completion(cachedImage)
+            completion(cachedImage)
             return
         }
         

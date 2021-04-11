@@ -83,3 +83,16 @@ class ArticleViewModelTests: XCTestCase {
         XCTAssertTrue(mockDelegate.urlFailureCalled)
     }
 }
+
+class MockArticleImageViewModelDelegate: ArticleImageViewModelDelegate {
+    var urlFailureCalled = false
+    var image: UIImage?
+    
+    func update(image: UIImage) {
+        self.image = image
+    }
+    
+    func urlFailure() {
+        urlFailureCalled = true
+    }
+}
