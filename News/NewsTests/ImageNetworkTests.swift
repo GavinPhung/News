@@ -12,3 +12,9 @@ class ImageNetworkTests: XCTestCase {
 
 
 }
+
+private extension ImageNetworkTests {
+    func setupNetworkRequest() {
+        
+    }
+}

@@ -21,8 +21,8 @@ class ArticleNetwork: ArticleNetworking {
     func fetch(urlString: String, completion: @escaping(Result<[Article], Error>) -> Void) {
         if let url = URL(string: urlString) {
             session.loadData(with: url) { (data, response, error) in
-                if let error = error {
-                    completion(.failure(error))
+                if error != nil {
+                    completion(.failure(CustomError.error))
                     return
                 }
                 

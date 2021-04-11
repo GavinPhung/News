@@ -1,5 +1,5 @@
 //
-//  ViewModelTests.swift
+//  HomeViewModelTests.swift
 //  NewsTests
 //
 //  Created by Gavin Phung on 11/04/2021.
@@ -8,13 +8,13 @@
 import XCTest
 @testable import News
 
-class ViewModelTests: XCTestCase {
-    var sut: ViewModel!
+class HomeViewModelTests: XCTestCase {
+    var sut: HomeViewModel!
     
     func test_onViewDidLoad_failure() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork(error: CustomError.badResponse)
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         XCTAssertNil(mockDelegate.error)
@@ -27,7 +27,7 @@ class ViewModelTests: XCTestCase {
     func test_onViewDidLoad_success() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         XCTAssertFalse(mockDelegate.updateCalled)
@@ -51,7 +51,7 @@ class ViewModelTests: XCTestCase {
     func test_init() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         XCTAssertEqual(sut.title, "News")
@@ -62,7 +62,7 @@ class ViewModelTests: XCTestCase {
     func test_onRefresh() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         XCTAssertFalse(mockDelegate.updateCalled)
@@ -86,7 +86,7 @@ class ViewModelTests: XCTestCase {
     func test_onSelected_networkSuccess() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         sut.sections[1].items = [SegmentedControlCellViewModel(title: "")]
@@ -105,7 +105,7 @@ class ViewModelTests: XCTestCase {
     func test_onSelected_networkFailure() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork(error: CustomError.badResponse)
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         sut.sections[1].items = [SegmentedControlCellViewModel(title: "General"), SegmentedControlCellViewModel(title: "")]
@@ -119,7 +119,7 @@ class ViewModelTests: XCTestCase {
     func test_onSelected_cachedResult() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         sut.onViewDidLoad()
@@ -134,7 +134,7 @@ class ViewModelTests: XCTestCase {
     func test_onSelected_uncachedResult() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         sut.onViewDidLoad()
@@ -149,7 +149,7 @@ class ViewModelTests: XCTestCase {
     func test_onSelected_headline() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         sut.sections[0].items = [HeadlineArticleCellViewModel(article: Article(title: "0"), imageNetwork: MockImageNetwork())]
@@ -163,7 +163,7 @@ class ViewModelTests: XCTestCase {
     func test_onSelected_article() {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
         sut.sections[2].items = [NewsArticleCellViewModel(article: Article(title: "0"), imageNetwork: MockImageNetwork())]
@@ -178,7 +178,7 @@ class ViewModelTests: XCTestCase {
         let mockDelegate = MockViewModelDelegate()
         let mockNetwork = MockArticleNetwork()
         
-        sut = ViewModel(network: mockNetwork)
+        sut = HomeViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
        
         sut.onSelected(indexPath: IndexPath(row: 0, section: 3))
@@ -188,7 +188,7 @@ class ViewModelTests: XCTestCase {
     }
 }
 
-private extension ViewModelTests {
+private extension HomeViewModelTests {
     func assertHeadlineCell(viewModel: CellViewModel, article: Article) {
         let viewModel = viewModel as! HeadlineArticleCellViewModel
         XCTAssertEqual(viewModel.article, article)

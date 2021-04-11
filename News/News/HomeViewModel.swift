@@ -26,7 +26,7 @@ class Section {
     }
 }
 
-class ViewModel {
+class HomeViewModel {
     private var network: ArticleNetworking
     let title = "News"
     let alertTitle = "Something went wrong"

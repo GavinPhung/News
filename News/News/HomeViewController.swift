@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  News
 //
 //  Created by Gavin Phung on 04/04/2021.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     let refreshControl = UIRefreshControl()
-    let viewModel = ViewModel()
+    let viewModel = HomeViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +73,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: ViewModelDelegate {
+extension HomeViewController: ViewModelDelegate {
     func update() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -108,7 +108,7 @@ extension ViewController: ViewModelDelegate {
     }
 }
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.sections[section].items.count
     }
