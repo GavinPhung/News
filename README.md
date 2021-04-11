@@ -5,11 +5,11 @@ This project is a simple news app, using News API, which allows you to see the l
 
 ## Features
 Swipe through top news\
-View different categories\
+View different categories
 
 ## Future features
 Search functionality\
 Save favourite sources\
 Save articles\
 Local caching of news articles\
-Webview instead of redirecting\
+Webview instead of redirecting
