@@ -1,5 +1,5 @@
 //
-//  Networking.swift
+//  ArticleNetworking.swift
 //  News
 //
 //  Created by Gavin Phung on 04/04/2021.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol Networking {
+protocol ArticleNetworking {
     func fetch(urlString: String, completion: @escaping(Result<[Article], Error>) -> Void)
 }
 
-class Network: Networking {
+class ArticleNetwork: ArticleNetworking {
     private var session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {

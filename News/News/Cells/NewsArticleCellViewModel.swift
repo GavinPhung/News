@@ -19,7 +19,7 @@ class NewsArticleCellViewModel: CellViewModel {
     
     init(article: Article, imageNetwork: ImageNetworking = ImageNetwork.shared) {
         self.article = article
-        title = article.title ?? ""
+        title = article.title ?? "No title"
         self.imageNetwork = imageNetwork
     }
     

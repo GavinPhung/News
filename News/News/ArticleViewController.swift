@@ -27,12 +27,12 @@ class ArticleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.updateImage()
-        titleLabel.text = viewModel.title
+        titleLabel.text = viewModel.articleTitle
         dateLabel.text = viewModel.date
         authorLabel.text = viewModel.author
         descriptionLabel.text = viewModel.description
         contentLabel.text = viewModel.content
-        title = "Article"
+        title = viewModel.title
         
         view.backgroundColor = Colors.background.color
         
@@ -52,7 +52,17 @@ class ArticleViewController: UIViewController {
     }
 }
 
-extension ArticleViewController: ImageDelegate {
+extension ArticleViewController: ArticleImageViewModelDelegate {
+    func urlFailure() {
+        let alert = UIAlertController(title: viewModel.alertTitle, message: viewModel.alertMessage, preferredStyle: UIAlertController.Style.alert)
+
+        alert.addAction(UIAlertAction(title: viewModel.alertButtonTitle, style: UIAlertAction.Style.default, handler: nil))
+
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     func update(image: UIImage) {
         DispatchQueue.main.async {
             self.imageView.image = image

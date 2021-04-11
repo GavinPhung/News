@@ -27,7 +27,7 @@ class Section {
 }
 
 class ViewModel {
-    private var network: Networking
+    private var network: ArticleNetworking
     let title = "News"
     let alertTitle = "Something went wrong"
     let buttonTitle = "Retry"
@@ -39,7 +39,7 @@ class ViewModel {
     private var selectedCategory: Int = 0
     private var cache = NSCache<NSString, Section>()
     
-    init(network: Networking = Network()) {
+    init(network: ArticleNetworking = ArticleNetwork()) {
         self.network = network
     }
     
@@ -85,7 +85,7 @@ class ViewModel {
         sections[0] = Section(items: [HeadlineArticleCellViewModel(article: articles[0]),
                                       HeadlineArticleCellViewModel(article: articles[1]),
                                       HeadlineArticleCellViewModel(article: articles[2])])
-        sections[1] = Section(items: Category.allCases.map { SegmentedControlCellViewModel(title: $0.rawValue) })
+        sections[1] = Section(items: Category.allCases.map { SegmentedControlCellViewModel(title: $0.rawValue.capitalized) })
         updateSelected(index: 0)
         articles.removeSubrange(0...2)
         cacheSections(category: "general")

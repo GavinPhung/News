@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CustomError: Error {
+enum CustomError: Error, Equatable {
     case badResponse, decodeError, noImage, noResults
     case badStatusCode (Int)
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Article: Codable {
+struct Article: Codable, Equatable {
     var author: String?
     var title: String?
     var description: String?

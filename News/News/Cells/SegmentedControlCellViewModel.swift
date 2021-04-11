@@ -14,6 +14,6 @@ class SegmentedControlCellViewModel: CellViewModel {
     var isSelected = false
     
     init(title: String) {
-        self.title = title.capitalized
+        self.title = title
     }
 }
