@@ -67,7 +67,7 @@ class HomeViewModelTests: XCTestCase {
         
         XCTAssertFalse(mockDelegate.updateCalled)
         
-        sut.onViewDidLoad()
+        sut.onRefresh()
         
         XCTAssertEqual(sut.sections[0].items.count, 3)
         
