@@ -58,21 +58,3 @@ class ArticleViewModel {
         application.open(url: url)
     }
 }
-
-enum Browsers {
-    case safari, chrome, firefox, opera
-    
-    func url(string: String) {
-        
-    }
-}
-
-protocol ApplicationProtocol {
-    func open(url: URL)
-}
-
-extension UIApplication: ApplicationProtocol {
-    func open(url: URL) {
-        open(url, options: [:], completionHandler: nil)
-    }
-}

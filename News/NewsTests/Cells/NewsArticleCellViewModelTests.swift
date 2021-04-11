@@ -36,17 +36,3 @@ class NewsArticleCellViewModelTests: XCTestCase {
         XCTAssertEqual(mockDelegate.image, UIImage())
     }
 }
-
-class MockImageDelegate: ImageDelegate {
-    var image: UIImage?
-    
-    func update(image: UIImage) {
-        self.image = image
-    }
-}
-
-class MockImageNetwork: ImageNetworking {
-    func fetch(urlString: String?, completion: @escaping (UIImage) -> Void) {
-        completion(UIImage())
-    }
-}

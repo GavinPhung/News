@@ -8,16 +8,13 @@
 import Foundation
 
 enum Endpoint {
-    case everything (String, Int)
     case topHeadlines (String)
     
     var url: String {
         let baseUrl = "https://newsapi.org/v2/"
         switch self {
         case .topHeadlines(let category):
-            return "\(baseUrl)top-headlines?country=gb&category=\(category)"
-        case .everything(let query, let pageNumber):
-            return "\(baseUrl)everything?q=\(query)&pageNumber=\(pageNumber)"
+            return "\(baseUrl)top-headlines?country=gb&category=\(category)&apiKey=\(ApiKey.key)"
         }
     }
 }

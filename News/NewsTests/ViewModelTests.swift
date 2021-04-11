@@ -10,12 +10,10 @@ import XCTest
 
 class ViewModelTests: XCTestCase {
     var sut: ViewModel!
-    var mockDelegate = MockViewModelDelegate()
-    var mockNetwork = MockArticleNetworking()
     
     func test_onViewDidLoad_failure() {
         let mockDelegate = MockViewModelDelegate()
-        let mockNetwork = MockArticleNetworking(error: CustomError.badResponse)
+        let mockNetwork = MockArticleNetwork(error: CustomError.badResponse)
         sut = ViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
@@ -28,7 +26,7 @@ class ViewModelTests: XCTestCase {
     
     func test_onViewDidLoad_success() {
         let mockDelegate = MockViewModelDelegate()
-        let mockNetwork = MockArticleNetworking()
+        let mockNetwork = MockArticleNetwork()
         sut = ViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
@@ -51,6 +49,8 @@ class ViewModelTests: XCTestCase {
     }
 
     func test_init() {
+        let mockDelegate = MockViewModelDelegate()
+        let mockNetwork = MockArticleNetwork()
         sut = ViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
@@ -61,7 +61,7 @@ class ViewModelTests: XCTestCase {
     
     func test_onRefresh() {
         let mockDelegate = MockViewModelDelegate()
-        let mockNetwork = MockArticleNetworking()
+        let mockNetwork = MockArticleNetwork()
         sut = ViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
@@ -83,9 +83,42 @@ class ViewModelTests: XCTestCase {
         XCTAssertTrue(mockDelegate.updateCalled)
     }
     
+    func test_onSelected_networkSuccess() {
+        let mockDelegate = MockViewModelDelegate()
+        let mockNetwork = MockArticleNetwork()
+        sut = ViewModel(network: mockNetwork)
+        sut.delegate = mockDelegate
+        
+        sut.sections[1].items = [SegmentedControlCellViewModel(title: "")]
+        
+        sut.onSelected(indexPath: IndexPath(row: 0, section: 1))
+        XCTAssertEqual(mockNetwork.fetchCalled, 1)
+        
+        assertNewsArticleCell(viewModel: sut.sections[2].items[0], article: mockNetwork.articles[0])
+        assertNewsArticleCell(viewModel: sut.sections[2].items[1], article: mockNetwork.articles[1])
+        assertNewsArticleCell(viewModel: sut.sections[2].items[2], article: mockNetwork.articles[2])
+        assertNewsArticleCell(viewModel: sut.sections[2].items[3], article: mockNetwork.articles[3])
+        XCTAssertFalse(mockDelegate.updateCalled)
+        XCTAssertTrue(mockDelegate.categoryClickedCalled)
+    }
+    
+    func test_onSelected_networkFailure() {
+        let mockDelegate = MockViewModelDelegate()
+        let mockNetwork = MockArticleNetwork(error: CustomError.badResponse)
+        sut = ViewModel(network: mockNetwork)
+        sut.delegate = mockDelegate
+        
+        sut.sections[1].items = [SegmentedControlCellViewModel(title: "General"), SegmentedControlCellViewModel(title: "")]
+        
+        sut.onSelected(indexPath: IndexPath(row: 0, section: 1))
+        
+        XCTAssertEqual(mockDelegate.error, CustomError.badResponse)
+
+    }
+    
     func test_onSelected_cachedResult() {
         let mockDelegate = MockViewModelDelegate()
-        let mockNetwork = MockArticleNetworking()
+        let mockNetwork = MockArticleNetwork()
         sut = ViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
@@ -100,7 +133,7 @@ class ViewModelTests: XCTestCase {
     
     func test_onSelected_uncachedResult() {
         let mockDelegate = MockViewModelDelegate()
-        let mockNetwork = MockArticleNetworking()
+        let mockNetwork = MockArticleNetwork()
         sut = ViewModel(network: mockNetwork)
         sut.delegate = mockDelegate
         
@@ -111,6 +144,47 @@ class ViewModelTests: XCTestCase {
         
         XCTAssertEqual(mockNetwork.fetchCalled, 2)
         XCTAssertTrue(mockDelegate.updateCalled)
+    }
+    
+    func test_onSelected_headline() {
+        let mockDelegate = MockViewModelDelegate()
+        let mockNetwork = MockArticleNetwork()
+        sut = ViewModel(network: mockNetwork)
+        sut.delegate = mockDelegate
+        
+        sut.sections[0].items = [HeadlineArticleCellViewModel(article: Article(title: "0"), imageNetwork: MockImageNetwork())]
+       
+        XCTAssertNil(mockDelegate.article)
+        sut.onSelected(indexPath: IndexPath(row: 0, section: 0))
+        
+        XCTAssertEqual(mockDelegate.article, Article(title: "0"))
+    }
+    
+    func test_onSelected_article() {
+        let mockDelegate = MockViewModelDelegate()
+        let mockNetwork = MockArticleNetwork()
+        sut = ViewModel(network: mockNetwork)
+        sut.delegate = mockDelegate
+        
+        sut.sections[2].items = [NewsArticleCellViewModel(article: Article(title: "0"), imageNetwork: MockImageNetwork())]
+       
+        XCTAssertNil(mockDelegate.article)
+        sut.onSelected(indexPath: IndexPath(row: 0, section: 2))
+        
+        XCTAssertEqual(mockDelegate.article, Article(title: "0"))
+    }
+    
+    func test_onSelected_outOfBounds() {
+        let mockDelegate = MockViewModelDelegate()
+        let mockNetwork = MockArticleNetwork()
+        
+        sut = ViewModel(network: mockNetwork)
+        sut.delegate = mockDelegate
+       
+        sut.onSelected(indexPath: IndexPath(row: 0, section: 3))
+        
+        XCTAssertNil(mockDelegate.article)
+        XCTAssertFalse(mockDelegate.updateCalled)
     }
 }
 
@@ -131,26 +205,6 @@ private extension ViewModelTests {
     func assertNewsArticleCell(viewModel: CellViewModel, article: Article) {
         let viewModel = viewModel as! NewsArticleCellViewModel
         XCTAssertEqual(viewModel.article, article)
-    }
-}
-
-class MockArticleNetworking: ArticleNetworking {
-    var error: CustomError?
-    var articles = [Article(title:"0"), Article(title:"1"), Article(title:"2"), Article(title:"3")]
-    
-    init(error: CustomError? = nil) {
-        self.error = error
-    }
-    
-    var fetchCalled = 0
-    
-    func fetch(urlString: String, completion: @escaping (Result<[Article], Error>) -> Void) {
-        fetchCalled += 1
-        if let error = error {
-            completion(.failure(error))
-            return
-        }
-        completion(.success(articles))
     }
 }
 
@@ -176,6 +230,4 @@ class MockViewModelDelegate: ViewModelDelegate {
     func categoryClicked() {
         categoryClickedCalled = true
     }
-    
-    
 }

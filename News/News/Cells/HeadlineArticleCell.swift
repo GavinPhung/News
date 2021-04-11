@@ -12,7 +12,7 @@ class HeadlineArticleCell: CollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var sourceLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var infoStackView: UIStackView!
     @IBOutlet weak var titleStackView: UIStackView!
     
@@ -28,8 +28,8 @@ class HeadlineArticleCell: CollectionViewCell {
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         titleLabel.textColor = .label
-        sourceLabel.text = viewModel.date
-        sourceLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        dateLabel.text = viewModel.date
+        dateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         authorLabel.text = viewModel.author
         authorLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         authorLabel.textColor = .label

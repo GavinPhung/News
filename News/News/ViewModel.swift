@@ -44,7 +44,7 @@ class ViewModel {
     }
     
     func onViewDidLoad() {
-        network.fetch(urlString: "\(Endpoint.topHeadlines("general").url)&apiKey=\(ApiKey.key)", completion: { [weak self] (result) in
+        network.fetch(urlString: "\(Endpoint.topHeadlines("general").url)", completion: { [weak self] (result) in
             switch result {
             case .failure(let error):
                 self?.delegate?.handle(error: error)
@@ -112,7 +112,7 @@ class ViewModel {
             return
         }
         
-        let urlString = "\(Endpoint.topHeadlines(category).url)&apiKey=\(ApiKey.key)"
+        let urlString = "\(Endpoint.topHeadlines(category).url)"
         
         network.fetch(urlString: urlString) { [weak self] (result) in
             switch result {

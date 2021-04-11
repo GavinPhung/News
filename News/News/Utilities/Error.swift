@@ -8,7 +8,7 @@
 import Foundation
 
 enum CustomError: Error, Equatable {
-    case badResponse, decodeError, noImage, noResults
+    case badResponse, decodeError, noResults
     case badStatusCode (Int)
     
     var message: String {
@@ -21,8 +21,6 @@ enum CustomError: Error, Equatable {
             return "No results found"
         case .decodeError:
             return "Decode error"
-        case .noImage:
-            return "No image found"
         }
     }
 }
