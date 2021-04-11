@@ -40,6 +40,15 @@ class ArticleViewModel {
     }
     
     func onButtonPressed() {
+        guard let urlString = article.url, let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url)
+    }
+}
+
+enum Browsers {
+    case safari, chrome, firefox, opera
+    
+    func url(string: String) {
         
     }
 }

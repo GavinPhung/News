@@ -14,6 +14,10 @@ protocol ViewModelDelegate: class {
     func categoryClicked()
 }
 
+enum Category: String, CaseIterable {
+    case general, entertainment, sport, technology, health, science
+}
+
 class Section {
     var items: [CellViewModel]
     

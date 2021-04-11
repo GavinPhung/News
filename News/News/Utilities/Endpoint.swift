@@ -10,6 +10,7 @@ import Foundation
 enum Endpoint {
     case everything (String, Int)
     case topHeadlines (String)
+    
     var url: String {
         let baseUrl = "https://newsapi.org/v2/"
         switch self {
@@ -21,8 +22,7 @@ enum Endpoint {
     }
 }
 
-
 enum ApiKey {
     static let key = "2767382893234ab1b7f16cd70c0c078f"
-//    case key = "310a8a133520464199498ddde094e9fe"
+//      "310a8a133520464199498ddde094e9fe"
 }

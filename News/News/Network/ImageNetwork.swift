@@ -15,6 +15,11 @@ class ImageNetwork: ImageNetworking {
     static var shared = ImageNetwork()
     
     private var cache = NSCache<NSString, UIImage>()
+    private var session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
     
     func fetch(urlString: String?, completion: @escaping (UIImage) -> Void) -> Void {
         guard let urlString = urlString else {
@@ -28,14 +33,13 @@ class ImageNetwork: ImageNetworking {
         }
         
         if let url = URL(string: urlString) {
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            session.loadData(with: url) { (data, response, error) in
                 if let data = data, let image = UIImage(data: data) {
                     self.cache.setObject(image, forKey: urlString as NSString)
                     completion(image)
                     return
                 }
             }
-            task.resume()
         }
         
         completion(UIImage(named: "placeholderNewsImage") ?? UIImage())

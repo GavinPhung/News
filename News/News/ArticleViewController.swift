@@ -46,6 +46,7 @@ class ArticleViewController: UIViewController {
         imageView.layer.cornerRadius = 5
         button.setTitle(viewModel.buttonTitle, for: .normal)
     }
+    
     @IBAction func buttonPressed(_ sender: Any) {
         viewModel.onButtonPressed()
     }

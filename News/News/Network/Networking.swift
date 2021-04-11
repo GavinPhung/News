@@ -12,9 +12,15 @@ protocol Networking {
 }
 
 class Network: Networking {
+    private var session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+    
     func fetch(urlString: String, completion: @escaping(Result<[Article], Error>) -> Void) {
         if let url = URL(string: urlString) {
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            session.loadData(with: url) { (data, response, error) in
                 if let error = error {
                     completion(.failure(error))
                     return
@@ -48,7 +54,6 @@ class Network: Networking {
                     completion(.failure(CustomError.badStatusCode(response.statusCode)))
                 }
             }
-            task.resume()
         }
     }
 }

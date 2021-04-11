@@ -84,7 +84,6 @@ extension ViewController: ViewModelDelegate {
         let error = error as? CustomError
         let alert = UIAlertController(title: viewModel.alertTitle, message: error?.message, preferredStyle: UIAlertController.Style.alert)
 
-                // add an action (button)
         alert.addAction(UIAlertAction(title: viewModel.buttonTitle, style: UIAlertAction.Style.default, handler: { [weak self] (action) in
             self?.viewModel.onViewDidLoad()
         }))
